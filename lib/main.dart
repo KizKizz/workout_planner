@@ -1,17 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:workout_planner/login_page.dart';
+
+const String appName = 'Workout Planner';
 
 void main() {
   runApp(const MyApp());
 }
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Workout Planner',
+      title: appName,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Workout Planner'),
+      home: const MyHomePage(title: appName),
     );
   }
 }
@@ -48,20 +54,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // Local vars go here
-  final List<String> _tiles = [
-    'Option 1',
-    'Option 2',
-    'Option 3',
-    'Option 4',
-    'Option 5',
-    'Option 6',
-    'Option 7',
-    'Option 8',
-  ];
 
-  // Functions go here
-
+  @override
+  void initState() {
+    super.initState();
+    //go to login page after 3 seconds
+    Timer(
+        const Duration(seconds: 3),
+        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const LoginPage(),
+            )));
+  }
+  
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -70,37 +74,27 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
+
+    //Splash screen
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-              ),
-              padding: const EdgeInsets.all(10),
-              itemCount: _tiles.length,
-              itemBuilder: ((context, index) {
-                return Card(
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(10.0)), side: BorderSide(width: 2, color: Theme.of(context).highlightColor)),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(10.0)), side: BorderSide(width: 2, color: Theme.of(context).highlightColor)),
-                    tileColor: Colors.blueAccent,
-                    title: Center(
-                        child: Text(
-                      _tiles[index],
-                      style: const TextStyle(color: Colors.white),
-                    )),
-                    onTap: () {},
-                  ),
-                );
-              }))),
+          child: LayoutBuilder(
+            builder: (context , constraints ) { 
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
+                  width: constraints.maxWidth * 0.3,
+                  height: constraints.maxWidth * 0.3,
+                  child: const Text('Logo Placeholder'),
+                ),
+              ],
+            );}
+          )),
     );
   }
 }
