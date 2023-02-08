@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_planner/login_page.dart';
 
 const String appName = 'Workout Planner';
@@ -9,29 +10,34 @@ void main() {
   runApp(const MyApp());
 }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: appName,
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: appName),
-    );
+    return ValueListenableBuilder<ThemeMode>(
+        valueListenable: MyApp.themeNotifier,
+        builder: (_, ThemeMode currentMode, __) {
+          return MaterialApp(
+            title: appName,
+            theme: ThemeData(
+              // This is the theme of your application.
+              //
+              // Try running your application with "flutter run". You'll see the
+              // application has a blue toolbar. Then, without quitting the app, try
+              // changing the primarySwatch below to Colors.green and then invoke
+              // "hot reload" (press "r" in the console where you ran "flutter run",
+              // or simply save your changes to "hot reload" in a Flutter IDE).
+              // Notice that the counter didn't reset back to zero; the application
+              // is not restarted.
+              primarySwatch: Colors.blue,
+            ),
+            darkTheme: ThemeData.dark(),
+            themeMode: currentMode,
+            home: const MyHomePage(title: appName),
+          );
+        });
   }
 }
 
@@ -54,9 +60,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isDarkModeOn = false;
 
+  // this will run the inside functions once after first loading up
   @override
   void initState() {
+    themeModeCheck();
     super.initState();
     //go to login page after 3 seconds
     Timer(
@@ -65,7 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context) => const LoginPage(),
             )));
   }
-  
+
+  Future<void> themeModeCheck() async {
+    final prefs = await SharedPreferences.getInstance();
+    isDarkModeOn = (prefs.getBool('isDarkModeOn') ?? false);
+    if (isDarkModeOn) {
+      MyApp.themeNotifier.value = ThemeMode.dark;
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -75,14 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-
     //Splash screen
     return Scaffold(
       body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: LayoutBuilder(
-            builder: (context , constraints ) { 
+          child: LayoutBuilder(builder: (context, constraints) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -93,8 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text('Logo Placeholder'),
                 ),
               ],
-            );}
-          )),
+            );
+          })),
     );
   }
 }
