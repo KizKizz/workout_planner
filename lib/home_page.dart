@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:workout_planner/main.dart';
 import 'package:workout_planner/selection_page.dart';
@@ -18,8 +20,6 @@ class _HomePageState extends State<HomePage> {
     'Option 4',
     'Option 5',
     'Option 6',
-    'Option 7',
-    'Option 8',
   ];
 
   // Functions go here
@@ -34,8 +34,8 @@ class _HomePageState extends State<HomePage> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: Platform.isIOS || Platform.isAndroid ? 2 : 3,
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
               ),
@@ -48,11 +48,16 @@ class _HomePageState extends State<HomePage> {
                   child: ListTile(
                     shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(10.0)), side: BorderSide(width: 2, color: Theme.of(context).highlightColor)),
                     tileColor: Colors.blueAccent,
-                    title: Center(
+                    title: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
                         child: Text(
-                      _tiles[index],
-                      style: const TextStyle(color: Colors.white),
-                    )),
+                          _tiles[index],
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
                     onTap: () {
                       Navigator.push(
                         context,
