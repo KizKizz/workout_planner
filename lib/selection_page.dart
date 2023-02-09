@@ -18,7 +18,18 @@ class _SelectionPageState extends State<SelectionPage> {
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: const Text('What is your goal?', style: TextStyle(fontSize: 30),),
-        ));
+          child: Column(children: [ElevatedButton(onPressed: (){
+
+          }, child:Text('Build Muscle')),
+          ElevatedButton(onPressed: (){
+
+          }, child:Text('Lose Weight')),
+          ElevatedButton(onPressed: (){
+
+          }, child:Text('Full Equiptment')),
+          ElevatedButton(onPressed: (){
+
+          }, child:Text('No Equiptment'))],),),
+        );
   }
 }
