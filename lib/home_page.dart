@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           width: MediaQuery.of(context).size.width,
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: Platform.isIOS || Platform.isAndroid ? 2 : 3,
+                crossAxisCount: MediaQuery.of(context).size.shortestSide < 600 ? 2 : 3,
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
               ),
