@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         valueListenable: MyApp.themeNotifier,
         builder: (_, ThemeMode currentMode, __) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: appName,
             theme: FlexThemeData.light(
               scheme: FlexScheme.red,
