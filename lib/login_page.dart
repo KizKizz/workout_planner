@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                                     decoration: InputDecoration(
                                       border: const OutlineInputBorder(),
                                       labelText: 'Login ID',
-                                      hintText: 'Enter your login ID (hint: $_userID)',
+                                      hintText: 'Login ID (hint: $_userID)',
                                     ),
                                   ),
                                 ),
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                                     decoration: InputDecoration(
                                       border: const OutlineInputBorder(),
                                       labelText: 'Password',
-                                      hintText: 'Enter your password (hint: $_userPassword)',
+                                      hintText: 'Password (hint: $_userPassword)',
                                     ),
                                     onFieldSubmitted: (value) async {
                                       if (_loginFormKey.currentState!.validate()) {

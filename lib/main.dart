@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_planner/login_page.dart';
@@ -20,21 +21,43 @@ class MyApp extends StatelessWidget {
         valueListenable: MyApp.themeNotifier,
         builder: (_, ThemeMode currentMode, __) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: appName,
-            //Color scheme for default light theme
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSwatch(
-                primarySwatch: Colors.orange,
-                backgroundColor: Colors.grey.shade800,
-                accentColor: Colors.amber,
-                brightness: Brightness.dark,
+            theme: FlexThemeData.light(
+              scheme: FlexScheme.red,
+              surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+              blendLevel: 9,
+              subThemesData: const FlexSubThemesData(
+                blendOnLevel: 10,
+                blendOnColors: false,
+                elevatedButtonRadius: 2.0,
+                outlinedButtonRadius: 1.0,
+                inputDecoratorRadius: 1.0,
+                inputDecoratorBorderWidth: 0.5,
+                inputDecoratorFocusedBorderWidth: 1.0,
               ),
-              canvasColor: Colors.grey.shade800,
-              
+              visualDensity: FlexColorScheme.comfortablePlatformDensity,
+              // To use the playground font, add GoogleFonts package and uncomment
+              // fontFamily: GoogleFonts.notoSans().fontFamily,
+            ),
+            darkTheme: FlexThemeData.dark(
+              scheme: FlexScheme.red,
+              surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+              blendLevel: 15,
+              subThemesData: const FlexSubThemesData(
+                blendOnLevel: 20,
+                elevatedButtonRadius: 2.0,
+                outlinedButtonRadius: 1.0,
+                inputDecoratorRadius: 1.0,
+                inputDecoratorBorderWidth: 0.5,
+                inputDecoratorFocusedBorderWidth: 1.0,
+              ),
+              visualDensity: FlexColorScheme.comfortablePlatformDensity,
+              // To use the Playground font, add GoogleFonts package and uncomment
+              // fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
 
-            //Color scheme for default dark theme
-            darkTheme: ThemeData.dark(),
+            // Light/Dark mode button switch control
             themeMode: currentMode,
             home: const MyHomePage(title: appName),
           );
