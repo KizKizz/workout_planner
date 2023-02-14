@@ -20,16 +20,16 @@ class _SelectionPageState extends State<SelectionPage> {
           width: MediaQuery.of(context).size.width,
           child: Column(children: [ElevatedButton(onPressed: (){
 
-          }, child:Text('Build Muscle')),
+          }, child:const Text('Build Muscle')),
           ElevatedButton(onPressed: (){
 
-          }, child:Text('Lose Weight')),
+          }, child:const Text('Lose Weight')),
           ElevatedButton(onPressed: (){
 
-          }, child:Text('Full Equiptment')),
+          }, child:const Text('Full Equiptment')),
           ElevatedButton(onPressed: (){
 
-          }, child:Text('No Equiptment'))],),),
+          }, child:const Text('No Equiptment'))],),),
         );
   }
 }
