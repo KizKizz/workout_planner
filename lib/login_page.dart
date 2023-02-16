@@ -159,7 +159,6 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           if (MyApp.themeNotifier.value == ThemeMode.dark)
             FloatingActionButton.extended(
-              //backgroundColor: Colors.deepOrange[800],
               icon: const Icon(Icons.light_mode),
               label: const Text(
                 'Light Theme',

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_planner/login_page.dart';
 
-const String appName = 'Workout Planner';
+const String appName = 'FIT Workout Planner';
 
 void main() {
   runApp(const MyApp());
