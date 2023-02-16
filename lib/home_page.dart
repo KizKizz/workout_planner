@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: homePageScaffoldKey,
-      appBar: fitAppbar(context, true, homePageScaffoldKey, appName),
+      appBar: fitAppbar(context, homePageScaffoldKey, appName),
       endDrawer: const FitAppbarDrawer(),
       body: SizedBox(
           height: MediaQuery.of(context).size.height,

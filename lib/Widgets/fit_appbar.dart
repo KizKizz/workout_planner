@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-PreferredSizeWidget fitAppbar(context, bool isHomePage, GlobalKey<ScaffoldState> scaffoldKey, String title) {
+PreferredSizeWidget fitAppbar(context, GlobalKey<ScaffoldState> scaffoldKey, String title) {
   return AppBar(
-    automaticallyImplyLeading: isHomePage ? false : true,
-    //leading: SizedBox(),
     title: Text(title),
     actions: [
       IconButton(

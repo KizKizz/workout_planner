@@ -16,7 +16,8 @@ class _SelectionPageState extends State<SelectionPage> {
   Widget build(BuildContext context) {
     final selectedOptionIndex = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
-        appBar: fitAppbar(context, false, selectionPageScaffoldKey, selectedOptionIndex),
+      key: selectionPageScaffoldKey,
+        appBar: fitAppbar(context, selectionPageScaffoldKey, selectedOptionIndex),
         endDrawer: const FitAppbarDrawer(),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
