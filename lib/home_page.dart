@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:workout_planner/Widgets/fit_appbar.dart';
+import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
 import 'package:workout_planner/main.dart';
 import 'package:workout_planner/selection_page.dart';
 
@@ -12,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // Local vars go here
+  final GlobalKey<ScaffoldState> homePageScaffoldKey = GlobalKey<ScaffoldState>();
   final List<List<String>> _tiles = [
     ['Abs', 'assets/images/abs.png'],
     ['Chest', 'assets/images/chest.png'],
@@ -25,9 +28,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(appName),
-      ),
+      key: homePageScaffoldKey,
+      appBar: fitAppbar(context, homePageScaffoldKey, appName),
+      endDrawer: const FitAppbarDrawer(),
       body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
