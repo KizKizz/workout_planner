@@ -23,14 +23,28 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: appName,
+            // This theme was made for FlexColorScheme version 6.1.1. Make sure
+            // you use same or higher version, but still same major version. If
+            // you use a lower version, some properties may not be supported. In
+            // that case you can also remove them after copying the theme to your app.
             theme: FlexThemeData.light(
-              scheme: FlexScheme.red,
+              colors: const FlexSchemeColor(
+                primary: Color(0xff1145a4),
+                primaryContainer: Color(0xff9fb4da),
+                secondary: Color(0xffb61d1d),
+                secondaryContainer: Color(0xffe1a4a4),
+                tertiary: Color(0xff376bca),
+                tertiaryContainer: Color(0xffcfdbf2),
+                appBarColor: Color(0xffcfdbf2),
+                error: Color(0xffb00020),
+              ),
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
               blendLevel: 9,
               subThemesData: const FlexSubThemesData(
                 blendOnLevel: 10,
                 blendOnColors: false,
-                elevatedButtonRadius: 2.0,
+                textButtonRadius: 1.0,
+                elevatedButtonRadius: 0.0,
                 outlinedButtonRadius: 1.0,
                 inputDecoratorRadius: 1.0,
                 inputDecoratorBorderWidth: 0.5,
@@ -41,12 +55,22 @@ class MyApp extends StatelessWidget {
               // fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
             darkTheme: FlexThemeData.dark(
-              scheme: FlexScheme.red,
+              colors: const FlexSchemeColor(
+                primary: Color(0xffbbcae5),
+                primaryContainer: Color(0xff577cbf),
+                secondary: Color(0xffe9bfbf),
+                secondaryContainer: Color(0xffcb6060),
+                tertiary: Color(0xffdde5f5),
+                tertiaryContainer: Color(0xff7297d9),
+                appBarColor: Color(0xffdde5f5),
+                error: null,
+              ),
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
               blendLevel: 15,
               subThemesData: const FlexSubThemesData(
                 blendOnLevel: 20,
-                elevatedButtonRadius: 2.0,
+                textButtonRadius: 1.0,
+                elevatedButtonRadius: 0.0,
                 outlinedButtonRadius: 1.0,
                 inputDecoratorRadius: 1.0,
                 inputDecoratorBorderWidth: 0.5,
@@ -56,6 +80,9 @@ class MyApp extends StatelessWidget {
               // To use the Playground font, add GoogleFonts package and uncomment
               // fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
+// If you do not have a themeMode switch, uncomment this line
+// to let the device system mode control the theme mode:
+// themeMode: ThemeMode.system,
 
             // Light/Dark mode button switch control
             themeMode: currentMode,
@@ -127,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
+                  constraints: const BoxConstraints(minHeight: 250, minWidth: 250),
                   decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
                   width: constraints.maxWidth * 0.3,
                   height: constraints.maxWidth * 0.3,

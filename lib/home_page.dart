@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
@@ -43,47 +42,37 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(10),
               itemCount: _tiles.length,
               itemBuilder: ((context, index) {
-                return 
-                Card(
+                return Card(
                   elevation: 10,
-                  shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(10.0)), side: BorderSide(width: 2, color: Theme.of(context).highlightColor)),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(10.0)), side: BorderSide(width: 2, color: Theme.of(context).highlightColor)),
-                    //tileColor: Colors.blueAccent,
-                    title: Stack(
-                      children: [
-                        Image(image: AssetImage(_tiles[index][1]), fit: BoxFit.fill,),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
+                  shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(5.0)), side: BorderSide(width: 2, color: Theme.of(context).highlightColor)),
+                  child: GridTile(
+                    footer: Container(
+                        color: Colors.black.withAlpha(150),
+                        child: Center(
                             child: Text(
-                              _tiles[index][0],
-                              //style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
+                          _tiles[index].first,
+                          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+                        ))),
+                    child: InkResponse(
+                      highlightShape: BoxShape.rectangle,
+                      splashFactory: InkRipple.splashFactory,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) => const SelectionPage(),
+                              settings: RouteSettings(arguments: [_tiles[index].first, _tiles[index].last]),
+                              transitionDuration: const Duration(milliseconds: 200),
+                              transitionsBuilder: (context, anim1, anim2, child) {
+                                return FadeTransition(
+                                  opacity: anim1,
+                                  child: child,
+                                );
+                              }),
+                        );
+                      },
+                      child: Ink.image(image: AssetImage(_tiles[index][1]), fit: BoxFit.fill,)
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        // MaterialPageRoute(
-                        //   builder: (context) => const SelectionPage(),
-                        //   settings: RouteSettings(arguments: _tiles[index]),
-                        // ),
-                        PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) => const SelectionPage(),
-                            settings: RouteSettings(arguments: _tiles[index][0]),
-                            transitionDuration: const Duration(milliseconds: 200),
-                            transitionsBuilder: (context, anim1, anim2, child) {
-                              return FadeTransition(
-                                opacity: anim1,
-                                child: child,
-                              );
-                            }),
-                      );
-                    },
                   ),
                 );
               }))),

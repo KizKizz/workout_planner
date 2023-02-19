@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
 
+// Choices to select
+enum WorkoutChoices { buildMuscle, loseWeight }
+
+enum EquipmentChoices { fullEquip, noEquip }
+
+// Text file name
+String instructionFileName = '';
+
 class SelectionPage extends StatefulWidget {
   const SelectionPage({Key? key}) : super(key: key);
 
@@ -11,29 +19,143 @@ class SelectionPage extends StatefulWidget {
 
 class _SelectionPageState extends State<SelectionPage> {
   final GlobalKey<ScaffoldState> selectionPageScaffoldKey = GlobalKey<ScaffoldState>();
-  
+  WorkoutChoices? _workoutChoices;
+  EquipmentChoices? _equipmentChoices;
+  final List<String> _textFileNameParts = [];
+  final List<List<String>> _workoutParts = [
+    ['Abs', 'abs'],
+    ['Chest', 'chest'],
+    ['Back', 'back'],
+    ['Arms', 'arm'],
+    ['Legs', 'leg'],
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final selectedOptionIndex = ModalRoute.of(context)!.settings.arguments as String;
+    final selectedOptionIndex = ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
-      key: selectionPageScaffoldKey,
-        appBar: fitAppbar(context, selectionPageScaffoldKey, selectedOptionIndex),
+        key: selectionPageScaffoldKey,
+        appBar: fitAppbar(context, selectionPageScaffoldKey, selectedOptionIndex.first),
         endDrawer: const FitAppbarDrawer(),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Column(children: [ElevatedButton(onPressed: (){
+          child: LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(5.0)), side: BorderSide(width: 3, color: Theme.of(context).highlightColor)),
+                    child: Container(
+                      constraints: const BoxConstraints(maxHeight: 250, maxWidth: 250),
+                      width: constraints.maxWidth,
+                      height: constraints.maxWidth,
+                      child: Image(image: AssetImage(selectedOptionIndex.last), fit: BoxFit.fill,),
+                    ),
+                  ),
+                ),
 
-          }, child:const Text('Build Muscle')),
-          ElevatedButton(onPressed: (){
+                // Workout choices
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                      child: Text(
+                        'Pick one:',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    RadioListTile<WorkoutChoices>(
+                      title: const Text('Build Muscle'),
+                      value: WorkoutChoices.buildMuscle,
+                      groupValue: _workoutChoices,
+                      onChanged: (WorkoutChoices? value) {
+                        setState(() {
+                          _workoutChoices = value;
+                        });
+                      },
+                    ),
+                    RadioListTile<WorkoutChoices>(
+                      title: const Text('Lose Weight'),
+                      value: WorkoutChoices.loseWeight,
+                      groupValue: _workoutChoices,
+                      onChanged: (WorkoutChoices? value) {
+                        setState(() {
+                          _workoutChoices = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
 
-          }, child:const Text('Lose Weight')),
-          ElevatedButton(onPressed: (){
+                // Equipments
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                      child: Text(
+                        'Pick one:',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    RadioListTile<EquipmentChoices>(
+                      title: const Text('Full Equipment'),
+                      value: EquipmentChoices.fullEquip,
+                      groupValue: _equipmentChoices,
+                      onChanged: (EquipmentChoices? value) {
+                        setState(() {
+                          _equipmentChoices = value;
+                        });
+                      },
+                    ),
+                    RadioListTile<EquipmentChoices>(
+                      title: const Text('No Equipment'),
+                      value: EquipmentChoices.noEquip,
+                      groupValue: _equipmentChoices,
+                      onChanged: (EquipmentChoices? value) {
+                        setState(() {
+                          _equipmentChoices = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
 
-          }, child:const Text('Full Equiptment')),
-          ElevatedButton(onPressed: (){
+                ElevatedButton(
+                    onPressed: _workoutChoices == null || _equipmentChoices == null
+                        ? null
+                        : () {
+                            _textFileNameParts.clear();
+                            int index = _workoutParts.indexWhere((element) => element.first == selectedOptionIndex.first);
+                            _textFileNameParts.add(_workoutParts[index].last);
+                            if (_workoutChoices == WorkoutChoices.buildMuscle) {
+                              _textFileNameParts.add('bm');
+                            } else if (_workoutChoices == WorkoutChoices.loseWeight) {
+                              _textFileNameParts.add('lw');
+                            }
+                            if (_equipmentChoices == EquipmentChoices.fullEquip) {
+                              _textFileNameParts.add('we');
+                            } else if (_equipmentChoices == EquipmentChoices.noEquip) {
+                              _textFileNameParts.add('ne');
+                            }
 
-          }, child:const Text('No Equiptment'))],),),
-        );
+                            instructionFileName = _textFileNameParts.join('_');
+                            //print(instructionFileName);
+                          },
+                    child: const Text('Continue'))
+              ],
+            );
+          }),
+        ));
   }
 }
