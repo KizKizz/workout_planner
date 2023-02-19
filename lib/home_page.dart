@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.black.withAlpha(150),
                         child: Center(
                             child: Text(
-                          _tiles[index][0],
+                          _tiles[index].first,
                           style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
                         ))),
                     child: InkResponse(
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           PageRouteBuilder(
                               pageBuilder: (context, animation1, animation2) => const SelectionPage(),
-                              settings: RouteSettings(arguments: _tiles[index][0]),
+                              settings: RouteSettings(arguments: [_tiles[index].first, _tiles[index].last]),
                               transitionDuration: const Duration(milliseconds: 200),
                               transitionsBuilder: (context, anim1, anim2, child) {
                                 return FadeTransition(
@@ -74,40 +74,6 @@ class _HomePageState extends State<HomePage> {
                       child: Ink.image(image: AssetImage(_tiles[index][1]), fit: BoxFit.fill,)
                     ),
                   ),
-
-                  // ListTile(
-                  //   visualDensity: VisualDensity.compact,
-                  //   shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(5.0)), side: BorderSide(width: 2, color: Theme.of(context).highlightColor)),
-                  //   title: Stack(
-                  //     children: [
-                  //       Image(image: AssetImage(_tiles[index][1]), fit: BoxFit.fill,),
-                  //       Align(
-                  //         alignment: Alignment.bottomCenter,
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.only(bottom: 5),
-                  //           child: Text(
-                  //             _tiles[index][0],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       PageRouteBuilder(
-                  //           pageBuilder: (context, animation1, animation2) => const SelectionPage(),
-                  //           settings: RouteSettings(arguments: _tiles[index][0]),
-                  //           transitionDuration: const Duration(milliseconds: 200),
-                  //           transitionsBuilder: (context, anim1, anim2, child) {
-                  //             return FadeTransition(
-                  //               opacity: anim1,
-                  //               child: child,
-                  //             );
-                  //           }),
-                  //     );
-                  //   },
-                  // ),
                 );
               }))),
     );

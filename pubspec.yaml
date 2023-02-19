@@ -71,6 +71,25 @@ flutter:
     - assets/images/back.png
     - assets/images/arms.png
     - assets/images/legs.png
+    - assets/workout_instructions/abs_bm_ne.txt
+    - assets/workout_instructions/abs_bm_we.txt
+    - assets/workout_instructions/abs_lw_we.txt
+    - assets/workout_instructions/abs_lw_ne.txt
+    - assets/workout_instructions/arm_bm_ne.txt
+    - assets/workout_instructions/arm_bm_we.txt
+    - assets/workout_instructions/arm_lw_we.txt
+    - assets/workout_instructions/arm_lw_ne.txt
+    - assets/workout_instructions/back_bm_ne.txt
+    - assets/workout_instructions/back_bm_we.txt
+    - assets/workout_instructions/back_lw_ne.txt
+    - assets/workout_instructions/back_lw_we.txt
+    - assets/workout_instructions/chest_bm_ne.txt
+    - assets/workout_instructions/chest_bm_we.txt
+    - assets/workout_instructions/chest_lw_we.txt
+    - assets/workout_instructions/leg_bm_ne.txt
+    - assets/workout_instructions/leg_bm_we.txt
+    - assets/workout_instructions/leg_lw_ne.txt
+    - assets/workout_instructions/leg_lw_we.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
