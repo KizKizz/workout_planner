@@ -154,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
+                  constraints: const BoxConstraints(minHeight: 250, minWidth: 250),
                   decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
                   width: constraints.maxWidth * 0.3,
                   height: constraints.maxWidth * 0.3,
