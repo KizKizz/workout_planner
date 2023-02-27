@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
+import 'package:workout_planner/instruction_page.dart';
 
 // Choices to select
 enum WorkoutChoices { buildMuscle, loseWeight }
@@ -52,7 +54,10 @@ class _SelectionPageState extends State<SelectionPage> {
                       constraints: const BoxConstraints(maxHeight: 250, maxWidth: 250),
                       width: constraints.maxWidth,
                       height: constraints.maxWidth,
-                      child: Image(image: AssetImage(selectedOptionIndex.last), fit: BoxFit.fill,),
+                      child: Image(
+                        image: AssetImage(selectedOptionIndex.last),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
@@ -135,22 +140,41 @@ class _SelectionPageState extends State<SelectionPage> {
                     onPressed: _workoutChoices == null || _equipmentChoices == null
                         ? null
                         : () {
+                            String curWorkoutChoice = '${selectedOptionIndex.first} - ';
                             _textFileNameParts.clear();
                             int index = _workoutParts.indexWhere((element) => element.first == selectedOptionIndex.first);
                             _textFileNameParts.add(_workoutParts[index].last);
                             if (_workoutChoices == WorkoutChoices.buildMuscle) {
                               _textFileNameParts.add('bm');
+                              curWorkoutChoice += 'Build Muscle - ';
                             } else if (_workoutChoices == WorkoutChoices.loseWeight) {
                               _textFileNameParts.add('lw');
+                              curWorkoutChoice += 'Lose Weight - ';
                             }
                             if (_equipmentChoices == EquipmentChoices.fullEquip) {
                               _textFileNameParts.add('we');
+                              curWorkoutChoice += 'With Equipment';
                             } else if (_equipmentChoices == EquipmentChoices.noEquip) {
                               _textFileNameParts.add('ne');
+                              curWorkoutChoice += 'No Equipment';
                             }
 
                             instructionFileName = _textFileNameParts.join('_');
                             //print(instructionFileName);
+
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  pageBuilder: (context, animation1, animation2) => const InstructionPage(),
+                                  settings: RouteSettings(arguments: [curWorkoutChoice, instructionFileName]),
+                                  transitionDuration: const Duration(milliseconds: 200),
+                                  transitionsBuilder: (context, anim1, anim2, child) {
+                                    return FadeTransition(
+                                      opacity: anim1,
+                                      child: child,
+                                    );
+                                  }),
+                            );
                           },
                     child: const Text('Continue'))
               ],
