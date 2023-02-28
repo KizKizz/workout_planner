@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
@@ -29,11 +30,13 @@ class _InstructionPageState extends State<InstructionPage> {
     final selectedWorkoutOptions = ModalRoute.of(context)!.settings.arguments as List<String>;
     List<String> instructions = [];
     return Scaffold(
-      key: instructionPageScaffoldKey,
+        key: instructionPageScaffoldKey,
         appBar: fitAppbar(context, instructionPageScaffoldKey, selectedWorkoutOptions.first),
         endDrawer: const FitAppbarDrawer(),
         body: FutureBuilder(
-            future: getInstructionText('assets/workout_instructions/${selectedWorkoutOptions.last}.txt'),
+            future: kIsWeb
+                ? getInstructionText('assets/assets/workout_instructions/${selectedWorkoutOptions.last}.txt')
+                : getInstructionText('assets/workout_instructions/${selectedWorkoutOptions.last}.txt'),
             builder: (
               BuildContext context,
               AsyncSnapshot snapshot,
