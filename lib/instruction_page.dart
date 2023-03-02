@@ -13,6 +13,7 @@ class InstructionPage extends StatefulWidget {
   @override
   State<InstructionPage> createState() => _InstructionPageState();
 }
+List<String> instructions = [];
 
 class _InstructionPageState extends State<InstructionPage> {
   final GlobalKey<ScaffoldState> instructionPageScaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,7 +34,6 @@ class _InstructionPageState extends State<InstructionPage> {
   @override
   Widget build(BuildContext context) {
     final selectedWorkoutOptions = ModalRoute.of(context)!.settings.arguments as List<String>;
-    List<String> instructions = [];
     return Scaffold(
         key: instructionPageScaffoldKey,
         appBar: fitAppbar(context, instructionPageScaffoldKey, selectedWorkoutOptions.first),
