@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
 
@@ -18,8 +19,12 @@ class _InstructionPageState extends State<InstructionPage> {
 
   Future<List<String>> getInstructionText(String filePath) async {
     List<String> textLines = [];
-    if (File(filePath).existsSync()) {
-      await File(filePath).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
+    if (kIsWeb) {
+      await rootBundle.loadString(filePath).asStream().transform(const LineSplitter()).forEach((line) => textLines.add(line));
+    } else {
+      if (File(filePath).existsSync()) {
+        await File(filePath).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
+      }
     }
 
     return textLines;
@@ -34,9 +39,8 @@ class _InstructionPageState extends State<InstructionPage> {
         appBar: fitAppbar(context, instructionPageScaffoldKey, selectedWorkoutOptions.first),
         endDrawer: const FitAppbarDrawer(),
         body: FutureBuilder(
-            future: kIsWeb
-                ? getInstructionText('assets/assets/workout_instructions/${selectedWorkoutOptions.last}.txt')
-                : getInstructionText('assets/workout_instructions/${selectedWorkoutOptions.last}.txt'),
+            future:
+                kIsWeb ? getInstructionText('assets/workout_instructions/${selectedWorkoutOptions.last}.txt') : getInstructionText('assets/workout_instructions/${selectedWorkoutOptions.last}.txt'),
             builder: (
               BuildContext context,
               AsyncSnapshot snapshot,
@@ -89,7 +93,25 @@ class _InstructionPageState extends State<InstructionPage> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [for (int i = 0; i < instructions.length; i++) Text('- ${instructions[i]}')],
+                      children: [
+                        for (int i = 0; i < instructions.length; i++)
+                          ListTile(
+                            title: Text(
+                              '- ${instructions[i]}',
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                            onTap: () {},
+                            trailing: ElevatedButton(
+                              onPressed: i != 0
+                                  ? null
+                                  : () {
+                                      instructions.removeAt(i);
+                                      setState(() {});
+                                    },
+                              child: const Text('Done'),
+                            ),
+                          )
+                      ],
                     );
                   } else {
                     return const Text('No instruction found');
