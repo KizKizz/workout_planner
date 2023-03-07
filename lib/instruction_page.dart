@@ -13,6 +13,7 @@ class InstructionPage extends StatefulWidget {
   @override
   State<InstructionPage> createState() => _InstructionPageState();
 }
+
 List<String> instructions = [];
 
 class _InstructionPageState extends State<InstructionPage> {
@@ -34,6 +35,7 @@ class _InstructionPageState extends State<InstructionPage> {
   @override
   Widget build(BuildContext context) {
     final selectedWorkoutOptions = ModalRoute.of(context)!.settings.arguments as List<String>;
+    final PageController pageController = PageController();
     return Scaffold(
         key: instructionPageScaffoldKey,
         appBar: fitAppbar(context, instructionPageScaffoldKey, selectedWorkoutOptions.first),
@@ -91,26 +93,52 @@ class _InstructionPageState extends State<InstructionPage> {
                   instructions = snapshot.data;
                   if (instructions.isNotEmpty) {
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        for (int i = 0; i < instructions.length; i++)
-                          ListTile(
-                            title: Text(
-                              '- ${instructions[i]}',
-                              style: const TextStyle(fontSize: 18),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height - 110,
+                          width: MediaQuery.of(context).size.width,
+                          child: PageView.builder(
+                            controller: pageController,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: instructions.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                elevation: 10,
+                                margin: const EdgeInsets.only(top: 5, bottom: 15, left: 20, right: 20),
+                                shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(5.0)), side: BorderSide(width: 1, color: Theme.of(context).primaryColor)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: Text(
+                                    instructions[index],
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                  )),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  pageController.previousPage(duration: Duration(seconds: 2), curve: Curves.bounceIn);
+                                },
+                                child: const Text('Previous Step')),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(''),
                             ),
-                            onTap: () {},
-                            trailing: ElevatedButton(
-                              onPressed: i != 0
-                                  ? null
-                                  : () {
-                                      instructions.removeAt(i);
-                                      setState(() {});
-                                    },
-                              child: const Text('Done'),
-                            ),
-                          )
+                            ElevatedButton(
+                                onPressed: () {
+                                  pageController.nextPage(duration: Duration(seconds: 2), curve: Curves.bounceOut);
+                                },
+                                child: const Text('Next Step'))
+                          ],
+                        )
                       ],
                     );
                   } else {
