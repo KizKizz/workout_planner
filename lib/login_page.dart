@@ -34,11 +34,10 @@ class _LoginPageState extends State<LoginPage> {
                       //Logo
                       //Container(padding: const EdgeInsets.only(top: 20), width: 500, height: 350, child: Image.asset('assets/Logo/logo_light.png')),
                       Container(
-                          padding: const EdgeInsets.only(top: 20),
-                          width: 250,
+                          width: 280,
                           height: 250,
                           decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
-                          child: const Text('Logo Placeholder')),
+                          child: Image.asset('assets/images/applogo.png', fit: BoxFit.fill)),
 
                       //Login
                       Stack(

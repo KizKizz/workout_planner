@@ -1,14 +1,36 @@
 import 'dart:async';
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/login_page.dart';
 
 const String appName = 'FIT Workout Planner';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  if (!kIsWeb) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
+
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(500, 820),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => StateProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -120,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     //go to login page after 3 seconds
     Timer(
-        const Duration(seconds: 3),
+        const Duration(seconds: 2),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const LoginPage(),
             )));
@@ -154,12 +176,14 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  constraints: const BoxConstraints(minHeight: 250, minWidth: 250),
-                  decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
-                  width: constraints.maxWidth * 0.3,
-                  height: constraints.maxWidth * 0.3,
-                  child: const Text('Logo Placeholder'),
-                ),
+                    constraints: const BoxConstraints(minHeight: 250, minWidth: 280),
+                    decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxWidth * 0.3,
+                    child: Image.asset(
+                      'assets/images/applogo.png',
+                      fit: BoxFit.fill,
+                    )),
               ],
             );
           })),

@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
 import 'package:workout_planner/instruction_page.dart';
@@ -140,6 +141,7 @@ class _SelectionPageState extends State<SelectionPage> {
                     onPressed: _workoutChoices == null || _equipmentChoices == null
                         ? null
                         : () {
+                            Provider.of<StateProvider>(context, listen: false).instructionPageReset();
                             String curWorkoutChoice = '${selectedOptionIndex.first} - ';
                             _textFileNameParts.clear();
                             int index = _workoutParts.indexWhere((element) => element.first == selectedOptionIndex.first);
