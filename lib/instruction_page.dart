@@ -110,18 +110,28 @@ class _InstructionPageState extends State<InstructionPage> {
                             itemBuilder: (context, index) {
                               return Card(
                                 elevation: 10,
-                                margin: const EdgeInsets.only(top: 5, bottom: 15, left: 20, right: 20),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                    side: BorderSide(width: 1, color: Theme.of(context).primaryColorLight)),
+                                margin: const EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                    side: BorderSide(width: 1)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                      child: Text(
-                                    instructions[index],
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                                  )),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${instructions[index].split(':').first}:',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
+                                      ),
+                                      Center(
+                                          child: Text(
+                                        instructions[index].split(':').last,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                      )),
+                                    ],
+                                  ),
                                 ),
                               );
                             },

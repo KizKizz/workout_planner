@@ -4,12 +4,27 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/login_page.dart';
 
 const String appName = 'FIT Workout Planner';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(500, 820),
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.normal,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
   runApp(
     MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => StateProvider()),
@@ -160,11 +175,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  constraints: const BoxConstraints(minHeight: 250, minWidth: 250),
+                  constraints: const BoxConstraints(minHeight: 250, minWidth: 280),
                   decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
-                  width: constraints.maxWidth * 0.3,
+                  width: constraints.maxWidth * 0.4,
                   height: constraints.maxWidth * 0.3,
-                  child: const Text('Logo Placeholder'),
+                  child: Image.asset('assets/images/applogo.png', fit: BoxFit.fill,)
                 ),
               ],
             );
