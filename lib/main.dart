@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                     constraints: const BoxConstraints(minHeight: 250, minWidth: 280),
                     decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
-                    width: constraints.maxWidth * 0.4,
+                    width: constraints.maxWidth * 0.3,
                     height: constraints.maxWidth * 0.3,
                     child: Image.asset(
                       'assets/images/applogo.png',
