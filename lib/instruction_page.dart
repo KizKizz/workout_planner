@@ -4,8 +4,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:provider/provider.dart';
+import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
+
 
 class InstructionPage extends StatefulWidget {
   const InstructionPage({super.key});
@@ -101,11 +104,16 @@ class _InstructionPageState extends State<InstructionPage> {
                             controller: pageController,
                             scrollDirection: Axis.horizontal,
                             itemCount: instructions.length,
+                            onPageChanged: (int i) {
+                              Provider.of<StateProvider>(context, listen: false).instructionPageSet(i + 1);
+                            },
                             itemBuilder: (context, index) {
                               return Card(
                                 elevation: 10,
                                 margin: const EdgeInsets.only(top: 5, bottom: 15, left: 20, right: 20),
-                                shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(5.0)), side: BorderSide(width: 1, color: Theme.of(context).primaryColor)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                    side: BorderSide(width: 1, color: Theme.of(context).primaryColorLight)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(
@@ -123,26 +131,42 @@ class _InstructionPageState extends State<InstructionPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  pageController.previousPage(duration: Duration(seconds: 2), curve: Curves.bounceIn);
-                                },
-                                child: const Text('Previous Step')),
+                            SizedBox(
+                              width: 150,
+                              child: ElevatedButton(
+                                  onPressed: context.watch<StateProvider>().instructionPageIndex == 1
+                                      ? null
+                                      : () {
+                                          pageController.previousPage(duration: const Duration(milliseconds: 250), curve: Curves.linear);
+                                        },
+                                  child: const Text('Previous Step')),
+                            ),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(''),
+                              child: SizedBox(
+                                  width: 60,
+                                  child: Center(
+                                      child: Text(
+                                    '${context.watch<StateProvider>().instructionPageIndex} of ${instructions.length}',
+                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                  ))),
                             ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  pageController.nextPage(duration: Duration(seconds: 2), curve: Curves.bounceOut);
-                                },
-                                child: const Text('Next Step'))
+                            SizedBox(
+                              width: 150,
+                              child: ElevatedButton(
+                                  onPressed: context.watch<StateProvider>().instructionPageIndex == instructions.length
+                                      ? null
+                                      : () {
+                                          pageController.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.linear);
+                                        },
+                                  child: const Text('Next Step')),
+                            )
                           ],
                         )
                       ],
                     );
                   } else {
-                    return const Text('No instruction found');
+                    return const Text('No instruction found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500));
                   }
                 }
               }

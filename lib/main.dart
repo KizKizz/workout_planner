@@ -2,13 +2,19 @@ import 'dart:async';
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/login_page.dart';
 
 const String appName = 'FIT Workout Planner';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => StateProvider()),
+  ], child: const MyApp())
+  );
 }
 
 class MyApp extends StatelessWidget {
