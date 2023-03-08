@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
+import 'package:workout_planner/main.dart';
 
 
 class InstructionPage extends StatefulWidget {
@@ -41,8 +42,10 @@ class _InstructionPageState extends State<InstructionPage> {
     final PageController pageController = PageController();
     return Scaffold(
         key: instructionPageScaffoldKey,
+        // Header + SIde drawer
         appBar: fitAppbar(context, instructionPageScaffoldKey, selectedWorkoutOptions.first),
         endDrawer: const FitAppbarDrawer(),
+        // Body - Instruction data fetcher
         body: FutureBuilder(
             future:
                 kIsWeb ? getInstructionText('assets/workout_instructions/${selectedWorkoutOptions.last}.txt') : getInstructionText('assets/workout_instructions/${selectedWorkoutOptions.last}.txt'),
@@ -97,6 +100,7 @@ class _InstructionPageState extends State<InstructionPage> {
                   if (instructions.isNotEmpty) {
                     return Column(
                       children: [
+                        // Horizontal scroll pages
                         SizedBox(
                           height: MediaQuery.of(context).size.height - 110,
                           width: MediaQuery.of(context).size.width,
@@ -116,27 +120,46 @@ class _InstructionPageState extends State<InstructionPage> {
                                     side: BorderSide(width: 1)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${instructions[index].split(':').first}:',
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: appWidth,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Center(
+                                            child: Container(
+                                              constraints: const BoxConstraints(maxHeight: appHeight * 0.5, maxWidth: appWidth),
+                                              width: double.infinity,
+                                              height: MediaQuery.of(context).size.width ,
+                                              decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5.0)), border: Border.all(color: Theme.of(context).primaryColorDark)),
+                                              child: const Center(child: Text('Something can go here')),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: appHeight * 0.1,
+                                          ),
+                                          Text(
+                                            '${instructions[index].split(':').first}:',
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
+                                          ),
+                                          Center(
+                                              child: Text(
+                                            instructions[index].split(':').last,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                          )),
+                                        ],
                                       ),
-                                      Center(
-                                          child: Text(
-                                        instructions[index].split(':').last,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                                      )),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               );
                             },
                           ),
                         ),
+                        
+                        // Bottom page buttons
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,

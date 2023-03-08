@@ -10,6 +10,8 @@ import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/login_page.dart';
 
 const String appName = 'FIT Workout Planner';
+const double appWidth = 500;
+const double appHeight = 820;
 
 void main() async {
   if (!kIsWeb) {
@@ -17,7 +19,7 @@ void main() async {
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
-      size: Size(500, 820),
+      size: Size(appWidth, appHeight),
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
