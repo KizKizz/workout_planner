@@ -32,6 +32,7 @@ class _SelectionPageState extends State<SelectionPage> {
     ['Back', 'back'],
     ['Arms', 'arm'],
     ['Legs', 'leg'],
+    ['Full Body', 'fullbody']
   ];
 
   @override

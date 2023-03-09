@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
     ['Back', 'assets/images/back.png'],
     ['Arms', 'assets/images/arms.png'],
     ['Legs', 'assets/images/legs.png'],
+    ['Full Body', 'assets/images/fullbody.png'],
   ];
 
   // Functions go here
