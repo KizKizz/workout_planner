@@ -94,6 +94,10 @@ flutter:
     - assets/workout_instructions/leg_bm_we.txt
     - assets/workout_instructions/leg_lw_ne.txt
     - assets/workout_instructions/leg_lw_we.txt
+    - assets/workout_instructions/fullbody_bm_we.txt
+    - assets/workout_instructions/fullbody_bm_ne.txt
+    - assets/workout_instructions/fullbody_lw_we.txt
+    - assets/workout_instructions/fullbody_lw_ne.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
