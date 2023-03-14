@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workout_planner/login_page.dart';
 import 'package:workout_planner/main.dart';
 
 class FitAppbarDrawer extends StatelessWidget {
@@ -17,23 +17,28 @@ class FitAppbarDrawer extends StatelessWidget {
             padding: EdgeInsets.only(top: 5, left: 10),
             child: Text('Username Placeholder'),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: MaterialButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => const LoginPage(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              child: Row(
-                children: const [Icon(Icons.logout), SizedBox(width: 10), Text('Logout')],
-              ),
-            ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: SignOutButton(variant: ButtonVariant.outlined,),
+            // MaterialButton(
+            //   onPressed: () {
+            //     SignedOutAction(
+            //       (context) {
+            //         Navigator.pushReplacement(
+            //           context,
+            //           PageRouteBuilder(
+            //             pageBuilder: (context, animation1, animation2) => const LoginPage(),
+            //             transitionDuration: Duration.zero,
+            //             reverseTransitionDuration: Duration.zero,
+            //           ),
+            //         );
+            //       },
+            //     );
+            //   },
+            //   child: Row(
+            //     children: const [Icon(Icons.logout), SizedBox(width: 10), Text('Logout')],
+            //   ),
+            // ),
           ),
           Divider(
             height: double.minPositive,

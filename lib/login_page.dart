@@ -13,9 +13,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final String _userID = 'test';
-  final String _userPassword = 'test';
-  final _loginFormKey = GlobalKey<FormState>();
+  // final String _userID = 'test';
+  // final String _userPassword = 'test';
+  // final _loginFormKey = GlobalKey<FormState>();
   final passFocus = FocusNode();
 
   @override
@@ -23,59 +23,63 @@ class _LoginPageState extends State<LoginPage> {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        return Scaffold(
-          body: Center(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(width: 250, height: 250, child: Image.asset('assets/images/applogo.png', fit: BoxFit.fill)),
-                const SizedBox(
-                  width: 400,
-                  height: 400,
-                  child: SignInScreen(
-                    providerConfigs: [
-                      EmailProviderConfiguration(),
-                    ],
+        if (!snapshot.hasData) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(width: 250, height: 250, child: Image.asset('assets/images/applogo.png', fit: BoxFit.fill)),
+                  const SizedBox(
+                    width: 400,
+                    height: 410,
+                    child: SignInScreen(
+                      providerConfigs: [
+                        EmailProviderConfiguration(),
+                      ],
+                    ),
                   ),
-                ),
+                ],
+              ),
+            ),
+            floatingActionButton: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (MyApp.themeNotifier.value == ThemeMode.dark)
+                  FloatingActionButton.extended(
+                    icon: const Icon(Icons.light_mode),
+                    label: const Text(
+                      'Light Theme',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: (() async {
+                      final prefs = await SharedPreferences.getInstance();
+                      MyApp.themeNotifier.value = ThemeMode.light;
+                      prefs.setBool('isDarkModeOn', false);
+                      setState(() {});
+                    }),
+                  ),
+                if (MyApp.themeNotifier.value == ThemeMode.light)
+                  FloatingActionButton.extended(
+                    //backgroundColor: Colors.deepOrange[800],
+                    icon: const Icon(Icons.dark_mode),
+                    label: const Text(
+                      'Dark Theme',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: (() async {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('isDarkModeOn', true);
+                      MyApp.themeNotifier.value = ThemeMode.dark;
+                      setState(() {});
+                    }),
+                  )
               ],
             ),
-          ),
-          floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (MyApp.themeNotifier.value == ThemeMode.dark)
-                FloatingActionButton.extended(
-                  icon: const Icon(Icons.light_mode),
-                  label: const Text(
-                    'Light Theme',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: (() async {
-                    final prefs = await SharedPreferences.getInstance();
-                    MyApp.themeNotifier.value = ThemeMode.light;
-                    prefs.setBool('isDarkModeOn', false);
-                    setState(() {});
-                  }),
-                ),
-              if (MyApp.themeNotifier.value == ThemeMode.light)
-                FloatingActionButton.extended(
-                  //backgroundColor: Colors.deepOrange[800],
-                  icon: const Icon(Icons.dark_mode),
-                  label: const Text(
-                    'Dark Theme',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: (() async {
-                    final prefs = await SharedPreferences.getInstance();
-                    prefs.setBool('isDarkModeOn', true);
-                    MyApp.themeNotifier.value = ThemeMode.dark;
-                    setState(() {});
-                  }),
-                )
-            ],
-          ),
-        );
+          );
+        }
+        return const HomePage();
       },
     );
   }
