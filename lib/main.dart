@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:workout_planner/Helpers/state_provider.dart';
+import 'package:workout_planner/firebase_options.dart';
 import 'package:workout_planner/login_page.dart';
 
 const String appName = 'FIT Workout Planner';
@@ -17,6 +22,11 @@ void main() async {
   if (!kIsWeb) {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
+    if (!Platform.isWindows) {
+      await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    }
 
     WindowOptions windowOptions = const WindowOptions(
       size: Size(appWidth, appHeight),
@@ -30,6 +40,11 @@ void main() async {
       await windowManager.show();
       await windowManager.focus();
     });
+  } else {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => StateProvider()),
@@ -112,6 +127,7 @@ class MyApp extends StatelessWidget {
             // Light/Dark mode button switch control
             themeMode: currentMode,
             home: const MyHomePage(title: appName),
+            //home: AuthGate(),
           );
         });
   }
@@ -193,3 +209,21 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+// class AuthGate extends StatelessWidget {
+//   const AuthGate({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<User?>(
+//       stream: FirebaseAuth.instance.authStateChanges(),
+//       builder: (context, snapshot) {
+//         return const SignInScreen(
+//            providerConfigs: [
+//             EmailProviderConfiguration(),
+//            ],
+//          );
+//       },
+//     );
+//   }
+// }
