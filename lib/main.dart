@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -20,15 +19,14 @@ void main() async {
   if (!kIsWeb) {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
-    if (!Platform.isWindows) {
-      await Firebase.initializeApp(
+    await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    }
 
     WindowOptions windowOptions = const WindowOptions(
       size: Size(appWidth, appHeight),
-      maximumSize: Size(appWidth, appHeight),
+      //maximumSize: Size(appWidth, appHeight),
+      minimumSize: Size(appWidth, appHeight),
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
@@ -207,21 +205,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-// class AuthGate extends StatelessWidget {
-//   const AuthGate({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<User?>(
-//       stream: FirebaseAuth.instance.authStateChanges(),
-//       builder: (context, snapshot) {
-//         return const SignInScreen(
-//            providerConfigs: [
-//             EmailProviderConfiguration(),
-//            ],
-//          );
-//       },
-//     );
-//   }
-// }

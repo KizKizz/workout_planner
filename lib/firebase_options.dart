@@ -27,15 +27,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return linux;
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -79,5 +73,25 @@ class DefaultFirebaseOptions {
     storageBucket: 'fitworkoutplanner.appspot.com',
     iosClientId: '945163606588-em8o3o93j9oeoato6rbap8sqn6ppmbg3.apps.googleusercontent.com',
     iosBundleId: 'com.example.workoutPlanner',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDX4LnrMZJJ_Q5LsHkBR8fv7t5caI4Gck4',
+    appId: '1:945163606588:web:f8ad388893b937701f4139',
+    messagingSenderId: '945163606588',
+    projectId: 'fitworkoutplanner',
+    authDomain: 'fitworkoutplanner.firebaseapp.com',
+    storageBucket: 'fitworkoutplanner.appspot.com',
+    measurementId: 'G-RQE9KSZ6C3',
+  );
+
+  static const FirebaseOptions linux = FirebaseOptions(
+    apiKey: 'AIzaSyDX4LnrMZJJ_Q5LsHkBR8fv7t5caI4Gck4',
+    appId: '1:945163606588:web:4763dce6b59c555d1f4139',
+    messagingSenderId: '945163606588',
+    projectId: 'fitworkoutplanner',
+    authDomain: 'fitworkoutplanner.firebaseapp.com',
+    storageBucket: 'fitworkoutplanner.appspot.com',
+    measurementId: 'G-FJ77T0NCZS',
   );
 }

@@ -29,6 +29,13 @@
             {
               "client_id": "945163606588-ro057uarga8fs1f7g0sorcv4u2q7sfb5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "945163606588-em8o3o93j9oeoato6rbap8sqn6ppmbg3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.workoutPlanner"
+              }
             }
           ]
         }

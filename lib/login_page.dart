@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_planner/home_page.dart';
 import 'package:workout_planner/main.dart';
 
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -34,7 +35,9 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     width: 400,
                     height: 410,
-                    child: SignInScreen(
+                    child: 
+                    SignInScreen(
+                      headerMaxExtent: 0,
                       providerConfigs: [
                         EmailProviderConfiguration(),
                       ],
