@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "945163606588",
+    "project_id": "fitworkoutplanner",
+    "storage_bucket": "fitworkoutplanner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945163606588:android:2b46fc7033a5f49f1f4139",
+        "android_client_info": {
+          "package_name": "com.example.workout_planner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945163606588-ro057uarga8fs1f7g0sorcv4u2q7sfb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSIzrm8o0zVOAtQ8_O8UzpxrGVIZp7nAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945163606588-ro057uarga8fs1f7g0sorcv4u2q7sfb5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "945163606588-em8o3o93j9oeoato6rbap8sqn6ppmbg3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.workoutPlanner"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

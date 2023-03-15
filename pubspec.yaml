@@ -39,6 +39,16 @@ dependencies:
   flex_color_scheme: ^6.1.2
   provider: ^6.0.3
   window_manager: ^0.3.1
+  firebase_core: ^2.7.1
+  firebase_auth: ^4.2.10
+  flutterfire_ui: ^0.4.3+20
+  firebase_core_desktop: ^1.0.2
+  #firebase_auth_desktop: ^1.0.2
+  firebase_auth_desktop: #^1.0.1
+    git:
+      url: https://github.com/NirmalAriyathilake/flutterfire_desktop.git
+      path: ./packages/firebase_auth/firebase_auth_desktop
+
 
 dev_dependencies:
   flutter_test:

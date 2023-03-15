@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workout_planner/login_page.dart';
 import 'package:workout_planner/main.dart';
+
+import '../login_page.dart';
 
 class FitAppbarDrawer extends StatelessWidget {
   const FitAppbarDrawer({super.key});
@@ -13,27 +16,95 @@ class FitAppbarDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 5, left: 10),
-            child: Text('Username Placeholder'),
+          Center(
+            child: Padding(
+                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                child: IconButton(
+                    iconSize: 50,
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<ProfileScreen>(
+                          builder: (context) => ProfileScreen(
+                            appBar: AppBar(
+                              title: const Text('Profile'),
+                            ),
+                            actions: [
+                              SignedOutAction((context) {
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                  builder: (context) => const LoginPage(),
+                                ));
+                              })
+                            ],
+                            children: [
+                              SizedBox(height: 100, child: Image.asset('assets/images/applogo.png', fit: BoxFit.fitHeight)),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    icon: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.person,
+                            size: 30,
+                          ),
+                          Text(
+                            'Profile',
+                            style: TextStyle(color: Theme.of(context).primaryColor),
+                          )
+                        ],
+                      ),
+                    ))),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: MaterialButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => const LoginPage(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              child: Row(
-                children: const [Icon(Icons.logout), SizedBox(width: 10), Text('Logout')],
-              ),
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.logout),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('Logout')
+                      ],
+                    ))),
+            // MaterialButton(
+            //   onPressed: () {
+            //     SignedOutAction(
+            //       (context) {
+            //         Navigator.pushReplacement(
+            //           context,
+            //           PageRouteBuilder(
+            //             pageBuilder: (context, animation1, animation2) => const LoginPage(),
+            //             transitionDuration: Duration.zero,
+            //             reverseTransitionDuration: Duration.zero,
+            //           ),
+            //         );
+            //       },
+            //     );
+            //   },
+            //   child: Row(
+            //     children: const [Icon(Icons.logout), SizedBox(width: 10), Text('Logout')],
+            //   ),
+            // ),
           ),
           Divider(
             height: double.minPositive,
@@ -46,7 +117,7 @@ class FitAppbarDrawer extends StatelessWidget {
             padding: EdgeInsets.only(top: 5, left: 10),
             child: Text(
               'Settings',
-              style: TextStyle(fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ),
           Padding(
