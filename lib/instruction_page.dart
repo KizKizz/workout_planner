@@ -104,6 +104,7 @@ class _InstructionPageState extends State<InstructionPage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height - 110,
                           width: MediaQuery.of(context).size.width,
+                          //width: appWidth,
                           child: PageView.builder(
                             controller: pageController,
                             scrollDirection: Axis.horizontal,
@@ -113,44 +114,47 @@ class _InstructionPageState extends State<InstructionPage> {
                             },
                             itemBuilder: (context, index) {
                               return Center(
-                                child: Card(
-                                  elevation: 10,
-                                  margin: const EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                      side: BorderSide(width: 1)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: SizedBox(
-                                        width: appWidth,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                constraints: const BoxConstraints(maxHeight: appHeight * 0.5, maxWidth: appWidth),
-                                                width: double.infinity,
-                                                height: MediaQuery.of(context).size.height * 0.5,
-                                                decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5.0)), border: Border.all(color: Theme.of(context).primaryColorDark)),
-                                                child: const Center(child: Text('Something can go here')),
+                                child: SizedBox(
+                                  width: appWidth,
+                                  child: Card(
+                                    elevation: 10,
+                                    margin: const EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                        side: BorderSide(width: 1)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: SizedBox(
+                                          width: appWidth,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: Container(
+                                                  constraints: const BoxConstraints(maxHeight: appHeight * 0.5, maxWidth: appWidth),
+                                                  width: double.infinity,
+                                                  height: MediaQuery.of(context).size.height * 0.5,
+                                                  decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5.0)), border: Border.all(color: Theme.of(context).primaryColorDark)),
+                                                  child: const Center(child: Text('Something can go here')),
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: appHeight * 0.1,
-                                            ),
-                                            Text(
-                                              '${instructions[index].split(':').first}:',
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
-                                            ),
-                                            Center(
-                                                child: Text(
-                                              instructions[index].split(':').last,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                                            )),
-                                          ],
+                                              const SizedBox(
+                                                height: appHeight * 0.1,
+                                              ),
+                                              Text(
+                                                '${instructions[index].split(':').first}:',
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
+                                              ),
+                                              Center(
+                                                  child: Text(
+                                                instructions[index].split(':').last,
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                              )),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
