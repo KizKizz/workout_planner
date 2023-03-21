@@ -64,16 +64,17 @@ class MyApp extends StatelessWidget {
             // you use a lower version, some properties may not be supported. In
             // that case you can also remove them after copying the theme to your app.
             theme: FlexThemeData.light(
-              colors: const FlexSchemeColor(
-                primary: Color(0xff1145a4),
-                primaryContainer: Color(0xff9fb4da),
-                secondary: Color(0xffb61d1d),
-                secondaryContainer: Color(0xffe1a4a4),
-                tertiary: Color(0xff376bca),
-                tertiaryContainer: Color(0xffcfdbf2),
-                appBarColor: Color(0xffcfdbf2),
-                error: Color(0xffb00020),
-              ),
+              // colors: const FlexSchemeColor(
+              //   primary: Color(0xff1145a4),
+              //   primaryContainer: Color(0xff9fb4da),
+              //   secondary: Color(0xffb61d1d),
+              //   secondaryContainer: Color(0xffe1a4a4),
+              //   tertiary: Color(0xff376bca),
+              //   tertiaryContainer: Color(0xffcfdbf2),
+              //   appBarColor: Color(0xffcfdbf2),
+              //   error: Color(0xffb00020),
+              // ),
+              scheme: FlexScheme.redWine,
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
               blendLevel: 9,
               subThemesData: const FlexSubThemesData(
@@ -91,16 +92,17 @@ class MyApp extends StatelessWidget {
               // fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
             darkTheme: FlexThemeData.dark(
-              colors: const FlexSchemeColor(
-                primary: Color(0xffbbcae5),
-                primaryContainer: Color(0xff577cbf),
-                secondary: Color(0xffe9bfbf),
-                secondaryContainer: Color(0xffcb6060),
-                tertiary: Color(0xffdde5f5),
-                tertiaryContainer: Color(0xff7297d9),
-                appBarColor: Color(0xffdde5f5),
-                error: null,
-              ),
+              // colors: const FlexSchemeColor(
+              //   primary: Color(0xffbbcae5),
+              //   primaryContainer: Color(0xff577cbf),
+              //   secondary: Color(0xffe9bfbf),
+              //   secondaryContainer: Color(0xffcb6060),
+              //   tertiary: Color(0xffdde5f5),
+              //   tertiaryContainer: Color(0xff7297d9),
+              //   appBarColor: Color(0xffdde5f5),
+              //   error: null,
+              // ),
+              scheme: FlexScheme.redWine,
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
               blendLevel: 15,
               subThemesData: const FlexSubThemesData(
