@@ -88,6 +88,8 @@ class MyApp extends StatelessWidget {
                 inputDecoratorFocusedBorderWidth: 1.0,
               ),
               visualDensity: FlexColorScheme.comfortablePlatformDensity,
+              useMaterial3: true,
+              swapLegacyOnMaterial3: true,
               // To use the playground font, add GoogleFonts package and uncomment
               // fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
@@ -115,6 +117,8 @@ class MyApp extends StatelessWidget {
                 inputDecoratorFocusedBorderWidth: 1.0,
               ),
               visualDensity: FlexColorScheme.comfortablePlatformDensity,
+              useMaterial3: true,
+              swapLegacyOnMaterial3: true,
               // To use the Playground font, add GoogleFonts package and uncomment
               // fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
