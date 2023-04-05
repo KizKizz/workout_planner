@@ -10,6 +10,8 @@ import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
 import 'package:workout_planner/main.dart';
 
+import 'Helpers/instruction_images_helper.dart';
+
 
 class InstructionPage extends StatefulWidget {
   const InstructionPage({super.key});
@@ -136,7 +138,7 @@ class _InstructionPageState extends State<InstructionPage> {
                                                   width: double.infinity,
                                                   height: MediaQuery.of(context).size.height * 0.5,
                                                   decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5.0)), border: Border.all(color: Theme.of(context).primaryColorDark)),
-                                                  child: const Center(child: Text('Something can go here')),
+                                                  child: Center(child: Image.network(activityImageGet(instructions[index].split(':').first))),
                                                 ),
                                               ),
                                               const SizedBox(
