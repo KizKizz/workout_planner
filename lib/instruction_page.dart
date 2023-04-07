@@ -9,9 +9,7 @@ import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
 import 'package:workout_planner/main.dart';
-
-import 'Helpers/instruction_images_helper.dart';
-
+import 'package:http/http.dart' as http;
 
 class InstructionPage extends StatefulWidget {
   const InstructionPage({super.key});
@@ -32,6 +30,25 @@ class _InstructionPageState extends State<InstructionPage> {
     } else {
       if (File(filePath).existsSync()) {
         await File(filePath).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
+      }
+    }
+
+    for (var line in textLines) {
+      String activityName = line.split(':').first;
+      String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$activityName.gif'.replaceAll(' ', '%20');
+      http.Response? res;
+      try {
+        res = await http.get(Uri.parse(imageURL));
+      } catch (e) {
+        textLines[textLines.indexOf(line)] += ':https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp';
+
+        return textLines;
+      }
+
+      if (res.statusCode == 200) {
+        textLines[textLines.indexOf(line)] += ':$imageURL';
+      } else {
+        textLines[textLines.indexOf(line)] += ':https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp';
       }
     }
 
@@ -56,34 +73,8 @@ class _InstructionPageState extends State<InstructionPage> {
               AsyncSnapshot snapshot,
             ) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Loading Data',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    CircularProgressIndicator(),
-                  ],
-                );
-              } else {
-                if (snapshot.hasError) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Error while loading data',
-                        style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 20),
-                      ),
-                    ],
-                  );
-                } else if (!snapshot.hasData) {
-                  return Column(
+                return Center(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: const [
@@ -96,6 +87,38 @@ class _InstructionPageState extends State<InstructionPage> {
                       ),
                       CircularProgressIndicator(),
                     ],
+                  ),
+                );
+              } else {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Error while loading data',
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (!snapshot.hasData) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'No Data Found',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CircularProgressIndicator(),
+                      ],
+                    ),
                   );
                 } else {
                   instructions = snapshot.data;
@@ -121,9 +144,7 @@ class _InstructionPageState extends State<InstructionPage> {
                                   child: Card(
                                     elevation: 10,
                                     margin: const EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                        side: BorderSide(width: 1)),
+                                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0)), side: BorderSide(width: 1)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
@@ -138,7 +159,7 @@ class _InstructionPageState extends State<InstructionPage> {
                                                   width: double.infinity,
                                                   height: MediaQuery.of(context).size.height * 0.5,
                                                   decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5.0)), border: Border.all(color: Theme.of(context).primaryColorDark)),
-                                                  child: Center(child: Image.network(activityImageGet(instructions[index].split(':').first))),
+                                                  child: Center(child: Image.network('${instructions[index].split(':')[2]}:${instructions[index].split(':').last}')),
                                                 ),
                                               ),
                                               const SizedBox(
@@ -151,7 +172,7 @@ class _InstructionPageState extends State<InstructionPage> {
                                               ),
                                               Center(
                                                   child: Text(
-                                                instructions[index].split(':').last,
+                                                instructions[index].split(':')[1],
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                                               )),
@@ -166,7 +187,7 @@ class _InstructionPageState extends State<InstructionPage> {
                             },
                           ),
                         ),
-                        
+
                         // Bottom page buttons
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -207,7 +228,7 @@ class _InstructionPageState extends State<InstructionPage> {
                       ],
                     );
                   } else {
-                    return const Text('No instruction found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500));
+                    return const Center(child: Text('No instruction found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)));
                   }
                 }
               }
