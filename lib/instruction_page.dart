@@ -28,16 +28,20 @@ class _InstructionPageState extends State<InstructionPage> {
       await rootBundle.loadString(filePath).asStream().transform(const LineSplitter()).forEach((line) => textLines.add(line));
     } else {
       if (File(filePath).existsSync()) {
-        await File(filePath).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) {
-          String activityName = line.split(':').first;
-          int imgIndex = validActivityImages.indexWhere((element) => element.first == activityName);
-          print(validActivityImages[imgIndex].last);
-          textLines.add('$line:${validActivityImages[imgIndex].last}');
-        });
+        await File(filePath).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
       }
     }
 
     return textLines;
+  }
+
+  String getActivtyImgLink(String activityName) {
+    for (var element in validActivityImages) {
+      if (activityName.toLowerCase() == element.first.toLowerCase()) {
+        return element.last;
+      }
+    }
+    return 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp';
   }
 
   @override
@@ -144,7 +148,7 @@ class _InstructionPageState extends State<InstructionPage> {
                                                   width: double.infinity,
                                                   height: MediaQuery.of(context).size.height * 0.5,
                                                   decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(5.0)), border: Border.all(color: Theme.of(context).primaryColorDark)),
-                                                  child: Center(child: Image.network('${instructions[index].split(':')[2]}:${instructions[index].split(':').last}')),
+                                                  child: Center(child: Image.network(getActivtyImgLink(instructions[index].split(':').first))),
                                                 ),
                                               ),
                                               const SizedBox(
@@ -157,7 +161,7 @@ class _InstructionPageState extends State<InstructionPage> {
                                               ),
                                               Center(
                                                   child: Text(
-                                                instructions[index].split(':')[1],
+                                                instructions[index].split(':').last,
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                                               )),

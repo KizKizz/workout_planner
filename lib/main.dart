@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cross_file/cross_file.dart';
@@ -167,39 +166,24 @@ class _MyHomePageState extends State<MyHomePage> {
       final imgFiles = Directory('${Directory.current.path}/workout_gifs').listSync(recursive: false);
       String imgFileNames = '';
       for (var file in imgFiles) {
-        if (file != imgFiles.last) {
-          imgFileNames += '${XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '')}\n';
-        } else {
-          imgFileNames += XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '');
+        if (XFile(file.path).name != 'workout_gifs_index.txt') {
+          if (file != imgFiles.last) {
+            imgFileNames += '${XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '')}\n';
+          } else {
+            imgFileNames += XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '');
+          }
         }
       }
       await File(imgIndexFilePath).writeAsString(imgFileNames);
     }
 
     List<List<String>> availableActivityImages = [];
-    List<String> imgList = [];
-    //http.read()
-    // for (var file in instructionFiles) {
-    //   List<String> textLines = [];
-    //   await File(file.path).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
-
-    //   for (var line in textLines) {
-    //     String activityName = line.split(':').first;
-    //     String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$activityName.gif'.replaceAll(' ', '%20');
-    //     http.Response? res;
-    //     try {
-    //       res = await http.get(Uri.parse(imageURL));
-    //     } catch (e) {
-    //       availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
-    //     }
-
-    //     if (res!.statusCode == 200) {
-    //       availableActivityImages.add([activityName, imageURL]);
-    //     } else {
-    //       availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
-    //     }
-    //   }
-    // }
+    final imgListFromGit = await http.read(Uri.parse('https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/workout_gifs_index.txt'));
+    List<String> imgList = imgListFromGit.split('\n').toList();
+    for (var fileName in imgList) {
+      String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$fileName.gif'.replaceAll(' ', '%20');
+      availableActivityImages.add([fileName, imageURL]);
+    }
 
     return availableActivityImages;
   }
