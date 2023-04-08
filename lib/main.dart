@@ -168,9 +168,9 @@ class _MyHomePageState extends State<MyHomePage> {
       for (var file in imgFiles) {
         if (XFile(file.path).name != 'workout_gifs_index.txt') {
           if (file != imgFiles.last) {
-            imgFileNames += '${XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '')}\n';
+            imgFileNames += '${XFile(file.path).name}\n';
           } else {
-            imgFileNames += XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '');
+            imgFileNames += XFile(file.path).name;
           }
         }
       }
@@ -181,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final imgListFromGit = await http.read(Uri.parse('https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/workout_gifs_index.txt'));
     List<String> imgList = imgListFromGit.split('\n').toList();
     for (var fileName in imgList) {
-      String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$fileName.gif'.replaceAll(' ', '%20');
+      String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$fileName'.replaceAll(' ', '%20');
       availableActivityImages.add([fileName, imageURL]);
     }
 
