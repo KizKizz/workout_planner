@@ -9,7 +9,6 @@ import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/Widgets/fit_appbar.dart';
 import 'package:workout_planner/Widgets/fit_appbar_drawer.dart';
 import 'package:workout_planner/main.dart';
-import 'package:http/http.dart' as http;
 
 class InstructionPage extends StatefulWidget {
   const InstructionPage({super.key});
@@ -29,26 +28,12 @@ class _InstructionPageState extends State<InstructionPage> {
       await rootBundle.loadString(filePath).asStream().transform(const LineSplitter()).forEach((line) => textLines.add(line));
     } else {
       if (File(filePath).existsSync()) {
-        await File(filePath).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
-      }
-    }
-
-    for (var line in textLines) {
-      String activityName = line.split(':').first;
-      String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$activityName.gif'.replaceAll(' ', '%20');
-      http.Response? res;
-      try {
-        res = await http.get(Uri.parse(imageURL));
-      } catch (e) {
-        textLines[textLines.indexOf(line)] += ':https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp';
-
-        return textLines;
-      }
-
-      if (res.statusCode == 200) {
-        textLines[textLines.indexOf(line)] += ':$imageURL';
-      } else {
-        textLines[textLines.indexOf(line)] += ':https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp';
+        await File(filePath).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) {
+          String activityName = line.split(':').first;
+          int imgIndex = validActivityImages.indexWhere((element) => element.first == activityName);
+          print(validActivityImages[imgIndex].last);
+          textLines.add('$line:${validActivityImages[imgIndex].last}');
+        });
       }
     }
 
