@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
@@ -161,30 +162,45 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<List<List<String>>> activityImagesValidate() async {
-    String assetsPath = 'assets/workout_instructions';
-    final instructionFiles = Directory(assetsPath).listSync(recursive: false);
-    List<List<String>> availableActivityImages = [];
-    for (var file in instructionFiles) {
-      List<String> textLines = [];
-      await File(file.path).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
-
-      for (var line in textLines) {
-        String activityName = line.split(':').first;
-        String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$activityName.gif'.replaceAll(' ', '%20');
-        http.Response? res;
-        try {
-          res = await http.get(Uri.parse(imageURL));
-        } catch (e) {
-          availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
-        }
-
-        if (res!.statusCode == 200) {
-          availableActivityImages.add([activityName, imageURL]);
+    if (kDebugMode) {
+      String imgIndexFilePath = '${Directory.current.path}/workout_gifs/workout_gifs_index.txt';
+      final imgFiles = Directory('${Directory.current.path}/workout_gifs').listSync(recursive: false);
+      String imgFileNames = '';
+      for (var file in imgFiles) {
+        if (file != imgFiles.last) {
+          imgFileNames += '${XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '')}\n';
         } else {
-          availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
+          imgFileNames += XFile(file.path).name.replaceAll('.gif', '').replaceAll('.webp', '');
         }
       }
+      await File(imgIndexFilePath).writeAsString(imgFileNames);
     }
+
+    List<List<String>> availableActivityImages = [];
+    List<String> imgList = [];
+    //http.read()
+    // for (var file in instructionFiles) {
+    //   List<String> textLines = [];
+    //   await File(file.path).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
+
+    //   for (var line in textLines) {
+    //     String activityName = line.split(':').first;
+    //     String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$activityName.gif'.replaceAll(' ', '%20');
+    //     http.Response? res;
+    //     try {
+    //       res = await http.get(Uri.parse(imageURL));
+    //     } catch (e) {
+    //       availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
+    //     }
+
+    //     if (res!.statusCode == 200) {
+    //       availableActivityImages.add([activityName, imageURL]);
+    //     } else {
+    //       availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
+    //     }
+    //   }
+    // }
+
     return availableActivityImages;
   }
 
