@@ -37,7 +37,7 @@ class _InstructionPageState extends State<InstructionPage> {
 
   String getActivtyImgLink(String activityName) {
     for (var element in validActivityImages) {
-      if (activityName.toLowerCase() == element.first.toLowerCase()) {
+      if (activityName.toLowerCase() == element.first.replaceAll('.gif', '').replaceAll('.webp', '').toLowerCase()) {
         return element.last;
       }
     }
