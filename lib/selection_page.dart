@@ -40,7 +40,7 @@ class _SelectionPageState extends State<SelectionPage> {
     final selectedOptionIndex = ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
         key: selectionPageScaffoldKey,
-        appBar: fitAppbar(context, selectionPageScaffoldKey, selectedOptionIndex.first),
+        appBar: fitAppbar(context, selectionPageScaffoldKey, selectedOptionIndex.first, true, true),
         endDrawer: const FitAppbarDrawer(),
         body: Center(
           child: SizedBox(
@@ -65,16 +65,16 @@ class _SelectionPageState extends State<SelectionPage> {
                       ),
                     ),
                   ),
-        
+
                   // Workout choices
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10),
                         child: Text(
-                          'Pick one:',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                          'Pick your ${selectedOptionIndex.first.toLowerCase()} workout goal:',
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ),
                       RadioListTile<WorkoutChoices>(
@@ -102,7 +102,7 @@ class _SelectionPageState extends State<SelectionPage> {
                   const SizedBox(
                     height: 15,
                   ),
-        
+
                   // Equipments
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +110,7 @@ class _SelectionPageState extends State<SelectionPage> {
                       const Padding(
                         padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
                         child: Text(
-                          'Pick one:',
+                          'Pick your style:',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -139,7 +139,7 @@ class _SelectionPageState extends State<SelectionPage> {
                   const SizedBox(
                     height: 15,
                   ),
-        
+
                   ElevatedButton(
                       onPressed: _workoutChoices == null || _equipmentChoices == null
                           ? null
@@ -163,10 +163,10 @@ class _SelectionPageState extends State<SelectionPage> {
                                 _textFileNameParts.add('ne');
                                 curWorkoutChoice += 'No Equipment';
                               }
-        
+
                               instructionFileName = _textFileNameParts.join('_');
                               //print(instructionFileName);
-        
+
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
