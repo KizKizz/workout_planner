@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -10,10 +12,12 @@ import 'package:window_manager/window_manager.dart';
 import 'package:workout_planner/Helpers/state_provider.dart';
 import 'package:workout_planner/firebase_options.dart';
 import 'package:workout_planner/login_page.dart';
+import 'package:http/http.dart' as http;
 
 const String appName = 'FIT Workout Planner';
 const double appWidth = 500;
 const double appHeight = 820;
+List<List<String>> validActivityImages = [];
 
 void main() async {
   if (!kIsWeb) {
@@ -64,15 +68,6 @@ class MyApp extends StatelessWidget {
             // you use a lower version, some properties may not be supported. In
             // that case you can also remove them after copying the theme to your app.
             theme: FlexThemeData.light(
-              // colors: const FlexSchemeColor(
-              //   primary: Color(0xff1145a4),
-              //   primaryContainer: Color(0xff9fb4da),
-              //   secondary: Color(0xffb61d1d),
-              //   secondaryContainer: Color(0xffe1a4a4),
-              //   tertiary: Color(0xff376bca),
-              //   tertiaryContainer: Color(0xffcfdbf2),
-              //   appBarColor: Color(0xffcfdbf2),
-              //   error: Color(0xffb00020),
               // ),
               scheme: FlexScheme.redWine,
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
@@ -94,16 +89,6 @@ class MyApp extends StatelessWidget {
               // fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
             darkTheme: FlexThemeData.dark(
-              // colors: const FlexSchemeColor(
-              //   primary: Color(0xffbbcae5),
-              //   primaryContainer: Color(0xff577cbf),
-              //   secondary: Color(0xffe9bfbf),
-              //   secondaryContainer: Color(0xffcb6060),
-              //   tertiary: Color(0xffdde5f5),
-              //   tertiaryContainer: Color(0xff7297d9),
-              //   appBarColor: Color(0xffdde5f5),
-              //   error: null,
-              // ),
               scheme: FlexScheme.redWine,
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
               blendLevel: 15,
@@ -160,13 +145,47 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     themeModeCheck();
+    activityImagesValidate().then((value) {
+      validActivityImages = value;
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ));
+    });
     super.initState();
     //go to login page after 3 seconds
-    Timer(
-        const Duration(seconds: 2),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const LoginPage(),
-            )));
+    // Timer(
+    //     const Duration(seconds: 2),
+    //     () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //           builder: (context) => const LoginPage(),
+    //         )));
+  }
+
+  Future<List<List<String>>> activityImagesValidate() async {
+    String assetsPath = 'assets/workout_instructions';
+    final instructionFiles = Directory(assetsPath).listSync(recursive: false);
+    List<List<String>> availableActivityImages = [];
+    for (var file in instructionFiles) {
+      List<String> textLines = [];
+      await File(file.path).openRead().transform(utf8.decoder).transform(const LineSplitter()).forEach((line) => textLines.add(line));
+
+      for (var line in textLines) {
+        String activityName = line.split(':').first;
+        String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$activityName.gif'.replaceAll(' ', '%20');
+        http.Response? res;
+        try {
+          res = await http.get(Uri.parse(imageURL));
+        } catch (e) {
+          availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
+        }
+
+        if (res!.statusCode == 200) {
+          availableActivityImages.add([activityName, imageURL]);
+        } else {
+          availableActivityImages.add([activityName, 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/gif-placeholder.webp']);
+        }
+      }
+    }
+    return availableActivityImages;
   }
 
   Future<void> themeModeCheck() async {
@@ -198,7 +217,6 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Container(
                     constraints: const BoxConstraints(minHeight: 250, minWidth: 280),
-                    //decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10.0)), color: Theme.of(context).highlightColor),
                     width: constraints.maxWidth * 0.3,
                     height: constraints.maxWidth * 0.3,
                     child: Image.asset(
