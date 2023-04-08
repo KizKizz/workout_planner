@@ -184,7 +184,6 @@ class _MyHomePageState extends State<MyHomePage> {
       String imageURL = 'https://raw.githubusercontent.com/KizKizz/workout_planner/main/workout_gifs/$fileName'.replaceAll(' ', '%20');
       availableActivityImages.add([fileName, imageURL]);
     }
-    print(availableActivityImages);
 
     return availableActivityImages;
   }
