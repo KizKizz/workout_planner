@@ -48,6 +48,7 @@ class _SelectionPageState extends State<SelectionPage> {
             width: appWidth,
             child: LayoutBuilder(builder: (context, constraints) {
               return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
@@ -67,37 +68,40 @@ class _SelectionPageState extends State<SelectionPage> {
                   ),
 
                   // Workout choices
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10),
-                        child: Text(
-                          'Pick your ${selectedOptionIndex.first.toLowerCase()} workout goal:',
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                          child: Text(
+                            'Pick your ${selectedOptionIndex.first.toLowerCase()} workout goal:',
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                      RadioListTile<WorkoutChoices>(
-                        title: const Text('Build Muscle'),
-                        value: WorkoutChoices.buildMuscle,
-                        groupValue: _workoutChoices,
-                        onChanged: (WorkoutChoices? value) {
-                          setState(() {
-                            _workoutChoices = value;
-                          });
-                        },
-                      ),
-                      RadioListTile<WorkoutChoices>(
-                        title: const Text('Lose Weight'),
-                        value: WorkoutChoices.loseWeight,
-                        groupValue: _workoutChoices,
-                        onChanged: (WorkoutChoices? value) {
-                          setState(() {
-                            _workoutChoices = value;
-                          });
-                        },
-                      ),
-                    ],
+                        RadioListTile<WorkoutChoices>(
+                          title: const Text('Build Muscle'),
+                          value: WorkoutChoices.buildMuscle,
+                          groupValue: _workoutChoices,
+                          onChanged: (WorkoutChoices? value) {
+                            setState(() {
+                              _workoutChoices = value;
+                            });
+                          },
+                        ),
+                        RadioListTile<WorkoutChoices>(
+                          title: const Text('Lose Weight'),
+                          value: WorkoutChoices.loseWeight,
+                          groupValue: _workoutChoices,
+                          onChanged: (WorkoutChoices? value) {
+                            setState(() {
+                              _workoutChoices = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 15,
