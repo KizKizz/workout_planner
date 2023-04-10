@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 
 const String appName = 'FIT Workout Planner';
 const double appWidth = 500;
-const double appHeight = 820;
+const double appHeight = 840;
 List<List<String>> validActivityImages = [];
 
 void main() async {
